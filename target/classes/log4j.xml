@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+	debug="false">
+
+	<!-- 指定logger的设置，additivity指示是否遵循缺省的继承机制 -->
+	<logger name="com.waycool.hsdb" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="logAppender" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<appender name="appAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="xcom_app.log" />
+		<param name="Threshold" value="debug" />
+		<param name="MaxFileSize" value="2MB" />
+		<param name="Append" value="true" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%c{1}] %-5p %m%n" />
+		</layout>
+	</appender>
+	<appender name="accessMonAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="xcom_mon.log" />
+		<param name="Threshold" value="debug" />
+		<param name="MaxFileSize" value="2MB" />
+		<param name="Append" value="true" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %m%n" />
+		</layout>
+	</appender>
+	<appender name="rpcAccessAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="xcom_jsonrpc.log" />
+		<param name="Threshold" value="debug" />
+		<param name="MaxFileSize" value="2MB" />
+		<param name="Append" value="true" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %m%n" />
+		</layout>
+	</appender>
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<param name="Threshold" value="debug" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE} [%c{1}] %-5p %m%n" />
+		</layout>
+	</appender>
+	
+	<!-- 此处修改 -->
+	<appender name="myFile" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="c:\\TIMSLOG\\output.log" /><!-- 设置日志输出文件名 -->
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p (%c:%L)- %m%n" />
+		</layout>
+	</appender>
+	<appender name="logAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="c:\\TIMSLOG\\sdhs-log.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+		<param name="encoding" value="gbk" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{MMdd HH:mm:ss SSS\} %-5p] [%t] %c{3\} - %m%n" />
+		</layout>
+	</appender>
+
+
+	<!-- 配置打印Sql语句 【开始】 -->
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p %d{MM-dd HH:mm:ss} %m  (%F:%L) \n" />
+		</layout>
+	</appender>
+
+	<category name="java.sql">
+		<priority value="debug" />
+	</category>
+	
+	<!-- 此处修改 -->
+	<category name="spittr">
+		<priority value="debug" />
+	</category>
+	<root>
+		<priority value="error" />
+		<appender-ref ref="STDOUT" />
+	</root>
+	<!-- 配置打印Sql语句【完 】 -->
+
+	<!-- 根logger的设置 -->
+	<root>
+		<priority value="info" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="myFile" />
+	</root>
+
+
+
+</log4j:configuration>
